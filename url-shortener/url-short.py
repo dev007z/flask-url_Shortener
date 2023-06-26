@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-import json
+import json, os.path as tap
 
 app = Flask(__name__)
 
@@ -16,8 +16,15 @@ def shortenUrl():
     if request.method == 'POST':
         # create dictionary to store urls
         urls = {}
+    
+        # check if file exists
+        if tap.exists('urls.json'):
+            with open('urls.json', 'r') as urls_file:
+                urls = json.load(urls_file)
+        if request.form['_code'] in urls.keys():
+            return redirect(url_for('index'))
+            
         urls[request.form["_code"]] = {'url': request.form['_url']}
-
         # create json file
         with open('urls.json', 'w') as url_file:
             json.dump(urls, url_file)

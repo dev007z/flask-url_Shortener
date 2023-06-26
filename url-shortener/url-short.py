@@ -35,3 +35,21 @@ def shortenUrl():
     else:
         # redirect to (the url for (index function))
         return redirect(url_for('index'))
+
+# route to redirect to code entered
+@app.route('/<string:code>')
+# function takes in the code entered as argument
+def redirectToUrl(code):
+    # check if file exists
+    if tap.exists('urls.json'):
+        # open file
+        with open('urls.json', 'r') as urls_file:
+            # load file to dictionary
+            urls = json.load(urls_file)
+            # if argument parsed(code) is a key in the loaded dictionary
+            if code in urls.keys():
+                # check if the url of the code entered is present
+                if 'url' in urls[code].keys():
+                    # redirect to the
+                    return(redirect(urls[code]['url']))
+                        

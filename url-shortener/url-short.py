@@ -6,6 +6,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html',title="Home")
 
-@app.route('/shorten-url')
+@app.route('/shorten-url', methods=['GET', 'POST'])
 def shortenUrl():
-    return render_template('shortenUrl.html', code=request.args['_code'], url=request.args['_url'])
+    if request.method == 'POST':
+        return render_template('shortenUrl.html', code=request.form['_code'], url=request.form['_url'])
+    else:
+        return "<h2>Invalid request. Change form method to POST</h2>"

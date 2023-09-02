@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, abort
 import json, os.path as tap
 
 app = Flask(__name__)
@@ -52,4 +52,4 @@ def redirectToUrl(code):
                 if 'url' in urls[code].keys():
                     # redirect to the
                     return(redirect(urls[code]['url']))
-                        
+    return abort(404)
